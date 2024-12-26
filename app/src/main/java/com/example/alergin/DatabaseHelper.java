@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Definir el nombre de la base de datos y la versión
     private static final String DATABASE_NAME = "alergiabd.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     // Información de los usuarios
     private static final String TABLE_USERS = "Users";
@@ -75,18 +75,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void insertDefaultAllergies(SQLiteDatabase db) {
-        insertAllergy(db, "Celíacos");
-        insertAllergy(db, "Intolerantes a la lactosa");
-        insertAllergy(db, "Alergia a frutos secos");
-        insertAllergy(db, "Alergia a mariscos");
+        // Especificar las alergias
+        insertAllergy(db, "Gluten");
+        insertAllergy(db, "Frutos secos");
+        insertAllergy(db, "Lácteos");
+        insertAllergy(db, "Diabetes");
+        insertAllergy(db, "Presion Alta");
     }
 
     private void insertDefaultAllergyIngredients(SQLiteDatabase db) {
-        insertAllergyIngredient(db, 1, "gluten"); // Celíacos
-        insertAllergyIngredient(db, 2, "lactosa"); // Intolerancia a la lactosa
-        insertAllergyIngredient(db, 3, "nueces"); // Alergia a frutos secos
-        insertAllergyIngredient(db, 4, "mariscos"); // Alergia a mariscos
-    }
+        // Insertar ingredientes específicos para cada categoría de alergia, incluyendo traducciones y consideraciones para las minúsculas y mayúsculas
+            // Gluten y sus derivados
+            insertAllergyIngredient(db, 1, "Gluten");
+            insertAllergyIngredient(db, 1, "Trigo");
+            insertAllergyIngredient(db, 1, "Cebada");
+            insertAllergyIngredient(db, 1, "Centeno");
+            insertAllergyIngredient(db, 1, "Avena");
+            insertAllergyIngredient(db, 1, "WHEAT");
+            insertAllergyIngredient(db, 1, "BARLEY");
+            insertAllergyIngredient(db, 1, "RYE");
+            insertAllergyIngredient(db, 1, "OATS");
+
+            // Frutos secos y sus variedades comunes
+            insertAllergyIngredient(db, 2, "Nueces");
+            insertAllergyIngredient(db, 2, "Almendras");
+            insertAllergyIngredient(db, 2, "Avellanas");
+            insertAllergyIngredient(db, 2, "NUTS");
+            insertAllergyIngredient(db, 2, "ALMONDS");
+            insertAllergyIngredient(db, 2, "HAZELNUTS");
+
+            // Lácteos
+            insertAllergyIngredient(db, 3, "Lactosa");
+            insertAllergyIngredient(db, 3, "Leche");
+            insertAllergyIngredient(db, 3, "Queso");
+            insertAllergyIngredient(db, 3, "LACTOSE");
+            insertAllergyIngredient(db, 3, "MILK");
+            insertAllergyIngredient(db, 3, "CHEESE");
+
+            // Diabetes (sensibles a azúcares)
+            insertAllergyIngredient(db, 4, "Azúcar");
+            insertAllergyIngredient(db, 4, "Glucosa");
+            insertAllergyIngredient(db, 4, "SUGAR");
+            insertAllergyIngredient(db, 4, "GLUCOSE");
+
+            // Presión alta (sensibles a la sal)
+            insertAllergyIngredient(db, 5, "Sal");
+            insertAllergyIngredient(db, 5, "Sodio");
+            insertAllergyIngredient(db, 5, "SALT");
+            insertAllergyIngredient(db, 5, "SODIUM");
+
+ }
 
     private void insertUser(SQLiteDatabase db, String username, String name, String lastName, String password) {
         ContentValues values = new ContentValues();
@@ -173,5 +211,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALLERGY_INGREDIENTS);
         onCreate(db);
     }
+
+    // Método para obtener el nombre de la categoría por su ID
+    public String getCategoryNameById(int categoryId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {"Name"};
+        String selection = "Id = ?";
+        String[] selectionArgs = {String.valueOf(categoryId)};
+        Cursor cursor = db.query("Categories", columns, selection, selectionArgs, null, null, null);
+        String name = null;
+
+        // Si se encuentra el resultado, obtener el nombre
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndexOrThrow("Name"));
+        }
+        cursor.close();
+        return name;
+    }
+    // Método para obtener el código de la imagen de la categoría por su ID
+    public String getCategoryImageCodeById(int categoryId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {"ImageCode"};
+        String selection = "Id = ?";
+        String[] selectionArgs = {String.valueOf(categoryId)};
+        Cursor cursor = db.query("Categories", columns, selection, selectionArgs, null, null, null);
+        String imageCode = null;
+
+        // Si se encuentra el resultado, obtener el código de la imagen
+        if (cursor.moveToFirst()) {
+            imageCode = cursor.getString(cursor.getColumnIndexOrThrow("ImageCode"));
+        }
+        cursor.close();
+        return imageCode;
+    }
+    public ArrayList<SubCategory> getSubCategoriesByCategoryId(int categoryId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<SubCategory> subCategories = new ArrayList<>();
+
+        // Consulta SQL para obtener las subcategorías basadas en el ID de la categoría
+        String SELECT_QUERY = "SELECT * FROM SubCategories WHERE CategoryId = ?";
+        Cursor cursor = db.rawQuery(SELECT_QUERY, new String[]{String.valueOf(categoryId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex("Id"));
+                String name = cursor.getString(cursor.getColumnIndex("Name"));
+                String imageCode = cursor.getString(cursor.getColumnIndex("ImageCode"));
+                String videoURL = cursor.getString(cursor.getColumnIndex("VideoURL"));
+
+                // Crear un nuevo objeto SubCategory y agregarlo a la lista
+                subCategories.add(new SubCategory(id, name, imageCode, videoURL));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return subCategories;
+    }
+
 }
 

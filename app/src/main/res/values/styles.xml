@@ -1,0 +1,25 @@
+<resources>
+    <!-- Estilo base que otros estilos pueden heredar -->
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+    </style>
+
+    <!-- Estilo para ActionBar que hereda del estilo base -->
+    <style name="Widget.Theme.Alergin.ActionBar.Fullscreen" parent="Base.AppTheme">
+        <item name="android:background">@color/white</item> <!-- Ejemplo, puede ser otro color si es necesario -->
+    </style>
+
+    <!-- Estilo para ButtonBar que también hereda del estilo base -->
+    <style name="Widget.Theme.Alergin.ButtonBar.Fullscreen" parent="Base.AppTheme">
+        <item name="android:background">@color/white</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <!-- Estilo para contenedores en pantalla completa, como diálogos o actividades específicas -->
+    <style name="ThemeOverlay.Alergin.FullscreenContainer" parent="Base.AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:windowBackground">@color/background_color</item>
+    </style>
+</resources>

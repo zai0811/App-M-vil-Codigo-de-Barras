@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:layout_margin="10dp"
+    android:background="@drawable/componente_borde"
     android:orientation="horizontal"
     >
 
@@ -11,6 +12,7 @@
         android:id="@+id/imageViewComidaIcon"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:src="@drawable/img_pizza"
         android:layout_gravity="center_vertical"
 
 
@@ -35,6 +37,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
+        android:src="@drawable/play"
         android:scaleType="fitCenter"
         android:padding="0dp"
         android:layout_margin="0dp"/>

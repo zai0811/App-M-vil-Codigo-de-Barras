@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="textView" type="id" />
+    <item name="scan_button" type="id" />
+    <item name="allergy_spinner" type="id" />
+    <item name="btn_recipes" type="id" />
+    <item name="btn_scan" type="id" />
+
+    <item name="recycler_view_favorites" type="id" />
+    <item name="store_name" type="id" />
+    <item name="favorite_button" type="id" />
+    <item name="button_recetas" type="id" />
+    <item name="user_text_vista" type="id" />
+    <item name="pantalla_scanear" type="id" />
+    <item name="pantalla_favoritos" type="id" />
+    <item name="pantalla_recetas" type="id" />
+    <item name="ALGeO44" type="id" />
+    <item name="ALgGO44" type="id" />
+    <item name="ALGO4324" type="id" />
+
+
+
+</resources>
