@@ -3,7 +3,9 @@ package com.example.alergin.Producto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Product implements Parcelable {
     private String name;
@@ -57,11 +59,26 @@ public class Product implements Parcelable {
     public String getIngredients() {
         return ingredients;
     }
+    // Método para normalizar texto y eliminar acentos
+    public static String normalizeText(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return normalized.toLowerCase(Locale.ROOT);
+    }
+    // Uso del método para comparar ingredientes ignorando acentos y mayúsculas/minúsculas
+    public ArrayList<String> getHarmfulIngredients(String ingredientsText, ArrayList<String> allergyIngredients) {
+        ArrayList<String> harmfulIngredients = new ArrayList<>();
+        String normalizedIngredientsText = normalizeText(ingredientsText);
 
-    public ArrayList<String> getHarmfulIngredients() {
+        for (String ingredient : allergyIngredients) {
+            String normalizedIngredient = normalizeText(ingredient);
+            if (normalizedIngredientsText.contains(normalizedIngredient)) {
+                harmfulIngredients.add(ingredient);
+            }
+        }
+
         return harmfulIngredients;
     }
-
     public String getStore() {
         return store;
     }

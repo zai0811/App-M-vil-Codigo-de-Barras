@@ -12,9 +12,9 @@ import java.util.List;
 
 public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdapter.SubCategoryViewHolder> {
     private List<SubCategory> subCategories;
-    private OnCategoryClickListener listener;
+    private OnClickListener listener;
 
-    public SubCategoriesAdapter(List<SubCategory> subCategories, OnCategoryClickListener listener) {
+    public SubCategoriesAdapter(List<SubCategory> subCategories, OnClickListener listener) {
         this.subCategories = subCategories;
         this.listener = listener;
     }

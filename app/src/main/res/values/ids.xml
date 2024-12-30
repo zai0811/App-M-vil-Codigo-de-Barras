@@ -14,10 +14,14 @@
     <item name="pantalla_scanear" type="id" />
     <item name="pantalla_favoritos" type="id" />
     <item name="pantalla_recetas" type="id" />
-    <item name="ALGeO44" type="id" />
-    <item name="ALgGO44" type="id" />
-    <item name="ALGO4324" type="id" />
+    <item name="nombre_tienda" type="id" />
 
+
+    <item name="store" type="id" />
+    <item name="harmfulIngredients" type="id" />
+    <item name="ingredients" type="id" />
+    <item name="productName" type="id" />
+    <item name="title_listafav" type="id" />
 
 
 </resources>

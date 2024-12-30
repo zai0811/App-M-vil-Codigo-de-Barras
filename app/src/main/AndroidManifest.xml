@@ -38,6 +38,7 @@
             android:exported="true"> <!-- Asegúrate de que está exportada correctamente -->
         </activity>
 
+
         <activity android:name=".Favoritos.FavoritesActivity" android:exported="true" />
     </application>
     </manifest>

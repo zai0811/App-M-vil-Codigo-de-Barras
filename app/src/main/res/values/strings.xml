@@ -19,6 +19,8 @@
     <string name="error_login">Invalid username or password</string>
     <string name="allergy_spinner">Selector de alergias</string>
     <string name="scan_button">Escanear</string>
+    <string name="nombre_tienda_input">Nombre de la Tienda</string>
+
 
 
 </resources>

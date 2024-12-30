@@ -4,10 +4,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.alergin.Favoritos.FavoritesActivity;
+import com.example.alergin.Recetas.RecipesActivity;
 
 import java.util.ArrayList;
 
@@ -21,55 +23,47 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         dbHelper = new DatabaseHelper(this);
-
-        // Obtener el nombre de usuario del intent
-        //String username = getIntent().getStringExtra("USERNAME");
-
-        // Configurar el TextView con el nombre de usuario
-       //TextView userTextView = findViewById(R.id.user_text_vista);
-        //userTextView.setText(getString(R.string.user_name_display, username));
-
-        // Configurar el Spinner con tipos de alergias desde la base de datos
         allergySpinner = findViewById(R.id.allergy_spinner);
-        ArrayList<String> allergies = getAllAllergies();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, allergies);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getAllAllergies());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         allergySpinner.setAdapter(adapter);
 
-        // Botón para escanear producto
-        Button scanButton = findViewById(R.id.scan_button);
-        scanButton.setOnClickListener(v -> startScanActivity());
-
-        // Botón de recetas
-        Button recipesButton = findViewById(R.id.button_recetas);
-        recipesButton.setOnClickListener(v -> startRecipesActivity());
+        findViewById(R.id.scan_button).setOnClickListener(v -> startScanActivity());
+        findViewById(R.id.button_recetas).setOnClickListener(v -> startRecipesActivity());
+        findViewById(R.id.favorite_button).setOnClickListener(v -> {
+            Intent intent = new Intent(this, FavoritesActivity.class);
+            startActivity(intent);
+        });
     }
 
-    // Método para obtener las alergias de la base de datos
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent); // Actualiza el intent actual con el nuevo intent
+    }
+
     private ArrayList<String> getAllAllergies() {
         ArrayList<String> allergyList = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("Allergies", new String[]{"Name"}, null, null, null, null, null);
-        while (cursor.moveToNext()) {
-            allergyList.add(cursor.getString(cursor.getColumnIndexOrThrow("Name")));
+        if (cursor.moveToFirst()) {
+            do {
+                allergyList.add(cursor.getString(cursor.getColumnIndexOrThrow("Name")));
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return allergyList;
     }
 
-    // Método para iniciar la actividad de escaneo
     private void startScanActivity() {
-        String selectedAllergy = allergySpinner.getSelectedItem().toString();
         Intent intent = new Intent(WelcomeActivity.this, ScanActivity.class);
-        intent.putExtra("SELECTED_ALLERGY", selectedAllergy);
+        intent.putExtra("SELECTED_ALLERGY", allergySpinner.getSelectedItem().toString());
         startActivity(intent);
     }
 
-    // Método para iniciar la actividad de recetas
     private void startRecipesActivity() {
-        String selectedAllergy = allergySpinner.getSelectedItem().toString();
         Intent intent = new Intent(WelcomeActivity.this, RecipesActivity.class);
-        intent.putExtra("SELECTED_ALLERGY", selectedAllergy);
+        intent.putExtra("SELECTED_ALLERGY", allergySpinner.getSelectedItem().toString());
         startActivity(intent);
     }
 }

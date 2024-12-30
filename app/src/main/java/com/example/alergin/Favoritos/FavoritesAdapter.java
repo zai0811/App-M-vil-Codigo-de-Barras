@@ -50,7 +50,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             super(itemView);
             productName = itemView.findViewById(R.id.product_name);
             productIngredients = itemView.findViewById(R.id.product_ingredients);
-            storeName = itemView.findViewById(R.id.store_name);
+            storeName = itemView.findViewById(R.id.store);
         }
     }
 }

@@ -1,5 +1,4 @@
 package com.example.alergin;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -19,7 +18,7 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
+
 
         dbHelper = new DatabaseHelper(this);
 
@@ -104,18 +103,26 @@ public class ScanActivity extends AppCompatActivity {
             runOnUiThread(() -> Toast.makeText(this, "Error al procesar la API", Toast.LENGTH_SHORT).show());
         }
     }
-
     private ArrayList<String> getHarmfulIngredients(String ingredientsText) {
         ArrayList<String> harmfulIngredients = new ArrayList<>();
-        int allergyId = dbHelper.getAllergyIdByName(selectedAllergy);
+        // Obtener la lista de ingredientes dañinos de la base de datos para la alergia seleccionada
+        int allergyId = dbHelper.getAllergyIdByName(selectedAllergy);  // Suponiendo que 'selectedAllergy' es una variable de instancia con la alergia seleccionada del usuario
         ArrayList<String> allergyIngredients = dbHelper.getIngredientsForAllergy(allergyId);
 
-        for (String ingredient : allergyIngredients) {
-            if (ingredientsText.toLowerCase().contains(ingredient.toLowerCase())) {
-                harmfulIngredients.add(ingredient);
+        // Convertir el texto de ingredientes en una lista (suponiendo que cada ingrediente está separado por comas)
+        String[] ingredientsArray = ingredientsText.split(",");
+
+        // Comprobar si algún ingrediente del producto está en la lista de ingredientes dañinos
+        for (String ingredient : ingredientsArray) {
+            ingredient = ingredient.trim().toLowerCase();  // Limpiar y convertir a minúsculas para comparación consistente
+            for (String allergyIngredient : allergyIngredients) {
+                if (ingredient.contains(allergyIngredient.toLowerCase())) {
+                    harmfulIngredients.add(allergyIngredient);
+                }
             }
         }
+
         return harmfulIngredients;
     }
-}
 
+}
