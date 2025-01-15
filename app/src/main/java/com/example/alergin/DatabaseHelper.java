@@ -104,17 +104,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertDefaultAllergyIngredients(db);
     }
     private void insertDefaultVideos(SQLiteDatabase db) {
-        insertVideo(db, "https://www.youtube.com/watch?v=video1", "Desayuno", 1);
-        insertVideo(db, "https://www.youtube.com/watch?v=video2", "Almuerzo", 1);
-        insertVideo(db, "https://www.youtube.com/watch?v=video3", "Cena", 1);
+        // Gluten
+        insertVideo(db, "https://www.youtube.com/watch?v=NR_LFXXJ9Dc", "Desayuno", 1); // Pancakes sin gluten
+        insertVideo(db, "https://www.youtube.com/watch?v=bROkJJxJcUw", "Almuerzo", 1);  // Ensalada sin gluten
+        insertVideo(db, "https://www.youtube.com/watch?v=xcaPtp2LAkc", "Cena", 1);      // Cena sin gluten
 
-        insertVideo(db, "https://www.youtube.com/watch?v=video4", "Desayuno", 2);
-        insertVideo(db, "https://www.youtube.com/watch?v=video5", "Almuerzo", 2);
-        insertVideo(db, "https://www.youtube.com/watch?v=video6", "Cena", 2);
+        // Frutos secos
+        insertVideo(db, "https://www.youtube.com/watch?v=EJ54PULCwgw", "Desayuno", 2); // Smoothie sin frutos secos
+        insertVideo(db, "https://www.youtube.com/watch?v=dYV2wW9XZAc", "Almuerzo", 2);  // Pasta sin frutos secos
+        insertVideo(db, "https://www.youtube.com/watch?v=kDsWzkaJS-M", "Cena", 2);      // Cena sin frutos secos
 
-        insertVideo(db, "https://www.youtube.com/watch?v=video7", "Desayuno", 3);
-        insertVideo(db, "https://www.youtube.com/watch?v=video8", "Almuerzo", 3);
-        insertVideo(db, "https://www.youtube.com/watch?v=video9", "Cena", 3);
+        // Lácteos
+        insertVideo(db, "https://www.youtube.com/watch?v=YXnkEhrN5Hc", "Desayuno", 3); // Batido sin lácteos
+        insertVideo(db, "https://www.youtube.com/watch?v=dYV2wW9XZAc", "Almuerzo", 3);  // Ensalada sin lácteos
+        insertVideo(db, "https://www.youtube.com/watch?v=_mQZyGWB7Ds", "Cena", 3);      // Cena sin lácteos
+
+        // Diabetes
+        insertVideo(db, "https://www.youtube.com/watch?v=cHqL_kClbnw", "Desayuno", 4); // Desayuno para diabéticos
+        insertVideo(db, "https://www.youtube.com/watch?v=MNMvJigpEvE", "Almuerzo", 4);  // Almuerzo para diabéticos
+        insertVideo(db, "https://www.youtube.com/watch?v=D0MSoLj7XqM", "Cena", 4);      // Cena para diabéticos
+
+        // Presión Alta
+        insertVideo(db, "https://www.youtube.com/watch?v=cHqL_kClbnw", "Desayuno", 5); // Desayuno para presión alta
+        insertVideo(db, "https://www.youtube.com/watch?v=DfBwlRiAQtY", "Almuerzo", 5);  // Almuerzo para presión alta
+        insertVideo(db, "https://www.youtube.com/watch?v=KEj7IkyZR6w", "Cena", 5);      // Cena para presión alta
     }
     public void insertVideo(SQLiteDatabase db, String videoUrl, String category, int allergyId) {
         ContentValues values = new ContentValues();
