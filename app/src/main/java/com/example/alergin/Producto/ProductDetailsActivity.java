@@ -40,9 +40,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
         String productIngredients = getIntent().getStringExtra("PRODUCT_INGREDIENTS");
         ArrayList<String> harmfulIngredients = getIntent().getStringArrayListExtra("HARMFUL_INGREDIENTS");
 
+// Configuración del TextView para mostrar los ingredientes dañinos
+        if (harmfulIngredients != null && !harmfulIngredients.isEmpty()) {
+            harmfulIngredientsTextView.setText("Ingredientes dañinos: " + String.join(", ", harmfulIngredients));
+        } else {
+            harmfulIngredientsTextView.setText("No se encontraron ingredientes dañinos.");
+        }
+
+
 
         productNameTextView.setText("Producto: " + productName);
         productIngredientsTextView.setText("Ingredientes: " + productIngredients);
+
+
 
         // Guardar producto en favoritos y volver a WelcomeActivity
         favoriteButton.setOnClickListener(v -> {

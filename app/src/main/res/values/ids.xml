@@ -28,4 +28,7 @@
     <item name="recipeContainer" type="id"/>
     <item name="webView" type="id"/>
 
+    <item name="title_alegias" type="id"/>
+
+
 </resources>

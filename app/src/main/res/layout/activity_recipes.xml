@@ -15,12 +15,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recipeContainer"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/recipeContainer"
+        android:layout_width="417dp"
+        android:layout_height="590dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="122dp">
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title_alegias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Seleccione el tipo de alergia"
+        android:textColor="#333"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="9dp"
+        tools:layout_editor_absoluteY="82dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
