@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Definir el nombre de la base de datos y la versión
     private static final String DATABASE_NAME = "alergiabd.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 22;
 
     // Información de los usuarios
     private static final String TABLE_USERS = "Users";
@@ -44,6 +44,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_INGREDIENTS = "ingredients";
     private static final String COLUMN_HARMFUL_INGREDIENTS = "harmful_ingredients";
     private static final String COLUMN_STORE = "store";
+
+
+    private static final String TABLE_VIDEOS = "Videos";
+    private static final String KEY_VIDEO_ID = "Video_Id";
+    private static final String KEY_VIDEO_URL = "Video_URL";
+    private static final String KEY_VIDEO_CATEGORY = "Category";
+    private static final String KEY_VIDEO_ALLERGY_ID = "Allergy_Id";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -81,10 +88,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_HARMFUL_INGREDIENTS + " TEXT,"
                 + COLUMN_STORE + " TEXT" + ")";
         db.execSQL(CREATE_FAVORITES_TABLE);
+
+        String CREATE_VIDEOS_TABLE = "CREATE TABLE " + TABLE_VIDEOS + "(" +
+                KEY_VIDEO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                KEY_VIDEO_URL + " TEXT, " +
+                KEY_VIDEO_CATEGORY + " TEXT, " +
+                KEY_VIDEO_ALLERGY_ID + " INTEGER, " +
+                "FOREIGN KEY (" + KEY_VIDEO_ALLERGY_ID + ") REFERENCES " + TABLE_ALLERGIES + "(" + KEY_ALLERGY_ID + "))";
+        db.execSQL(CREATE_VIDEOS_TABLE);
+
+        insertDefaultVideos(db);
         // Insertar datos predeterminados
         insertDefaultUsers(db);
         insertDefaultAllergies(db);
         insertDefaultAllergyIngredients(db);
+    }
+    private void insertDefaultVideos(SQLiteDatabase db) {
+        insertVideo(db, "https://www.youtube.com/watch?v=video1", "Desayuno", 1);
+        insertVideo(db, "https://www.youtube.com/watch?v=video2", "Almuerzo", 1);
+        insertVideo(db, "https://www.youtube.com/watch?v=video3", "Cena", 1);
+
+        insertVideo(db, "https://www.youtube.com/watch?v=video4", "Desayuno", 2);
+        insertVideo(db, "https://www.youtube.com/watch?v=video5", "Almuerzo", 2);
+        insertVideo(db, "https://www.youtube.com/watch?v=video6", "Cena", 2);
+
+        insertVideo(db, "https://www.youtube.com/watch?v=video7", "Desayuno", 3);
+        insertVideo(db, "https://www.youtube.com/watch?v=video8", "Almuerzo", 3);
+        insertVideo(db, "https://www.youtube.com/watch?v=video9", "Cena", 3);
+    }
+    public void insertVideo(SQLiteDatabase db, String videoUrl, String category, int allergyId) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_VIDEO_URL, videoUrl);
+        values.put(KEY_VIDEO_CATEGORY, category);
+        values.put(KEY_VIDEO_ALLERGY_ID, allergyId);
+        db.insert(TABLE_VIDEOS, null, values);
+    }
+
+    public Cursor getVideosByAllergyAndCategory(int allergyId, String category) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT " + KEY_VIDEO_URL + " FROM " + TABLE_VIDEOS +
+                " WHERE " + KEY_VIDEO_ALLERGY_ID + "=? AND " + KEY_VIDEO_CATEGORY + "=?", new String[]{String.valueOf(allergyId), category});
+    }
+    public String getVideoUrlByCategory(int allergyId, String category) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String videoUrl = null;
+        Cursor cursor = db.rawQuery("SELECT Video_URL FROM Videos WHERE Allergy_Id = ? AND Category = ?",
+                new String[]{String.valueOf(allergyId), category});
+        if (cursor.moveToFirst()) {
+            videoUrl = cursor.getString(cursor.getColumnIndexOrThrow("Video_URL"));
+        }
+        cursor.close();
+        return videoUrl;
     }
 
     private void insertDefaultUsers(SQLiteDatabase db) {

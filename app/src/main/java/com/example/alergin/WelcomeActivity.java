@@ -4,18 +4,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alergin.Favoritos.FavoritesActivity;
-import com.example.alergin.Recetas.RecipesActivity;
+import com.example.alergin.RecipeActivity;
 
 import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private Spinner allergySpinner;
+    private Button btnVerRecetas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,13 @@ public class WelcomeActivity extends AppCompatActivity {
         allergySpinner.setAdapter(adapter);
 
         findViewById(R.id.scan_button).setOnClickListener(v -> startScanActivity());
-        findViewById(R.id.button_recetas).setOnClickListener(v -> startRecipesActivity());
+
+        btnVerRecetas = findViewById(R.id.button_recetas);
+        btnVerRecetas.setOnClickListener(v -> {
+            Intent intent = new Intent(WelcomeActivity.this, AllergiesActivity.class);
+            startActivity(intent);
+        });
+
         findViewById(R.id.favorite_button).setOnClickListener(v -> {
             Intent intent = new Intent(this, FavoritesActivity.class);
             startActivity(intent);
@@ -62,7 +70,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void startRecipesActivity() {
-        Intent intent = new Intent(WelcomeActivity.this, RecipesActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this, RecipeActivity.class);
         intent.putExtra("SELECTED_ALLERGY", allergySpinner.getSelectedItem().toString());
         startActivity(intent);
     }

@@ -22,4 +22,11 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:windowBackground">@color/background_color</item>
     </style>
+
+
+
+        <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="android:colorBackground">@color/white</item>
+        </style>
+
 </resources>

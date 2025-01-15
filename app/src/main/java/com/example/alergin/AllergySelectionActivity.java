@@ -60,7 +60,7 @@ public class AllergySelectionActivity extends AppCompatActivity {
     }
 
     public void onAllergySelected(String allergy) {
-        Intent intent = new Intent(AllergySelectionActivity.this, CategoryActivity.class);
+        Intent intent = new Intent(AllergySelectionActivity.this, RecipeActivity.class);
         intent.putExtra("SelectedAllergy", allergy);
         startActivity(intent);
     }
@@ -71,7 +71,7 @@ public class AllergySelectionActivity extends AppCompatActivity {
     }
 
     public void onRecipesButtonClick() {
-        Intent intent = new Intent(AllergySelectionActivity.this, CategoryActivity.class);
+        Intent intent = new Intent(AllergySelectionActivity.this, AllergiesActivity.class);
         startActivity(intent);
     }
 }

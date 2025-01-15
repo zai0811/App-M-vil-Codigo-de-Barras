@@ -24,4 +24,8 @@
     <item name="title_listafav" type="id" />
 
 
+    <item name="allergiesContainer" type="id"/>
+    <item name="recipeContainer" type="id"/>
+    <item name="webView" type="id"/>
+
 </resources>
