@@ -52,6 +52,7 @@
             android:name=".VideoPlayerActivity"
             android:exported="true"/>
 
-        <activity android:name=".Favoritos.FavoritesActivity" android:exported="true" />
-    </application>
+        <activity
+            android:name=".FavoritesActivity"
+            android:exported="true" />    </application>
     </manifest>
