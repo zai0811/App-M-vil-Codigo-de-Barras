@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Definir el nombre de la base de datos y la versión
     private static final String DATABASE_NAME = "alergiabd.db";
-    private static final int DATABASE_VERSION = 22;
+    private static final int DATABASE_VERSION = 25;
 
     // Información de los usuarios
     private static final String TABLE_USERS = "Users";
@@ -340,51 +340,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return subCategories;
     }
-    // Método para agregar un favorito
-    // Método para agregar un favorito
-    public void addFavorite(String productName, String ingredients, ArrayList<String> harmfulIngredients, String store) {
+
+    // Método para añadir un favorito (solo producto y tienda)
+    public void addFavorite(String productName, String store) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, productName);
-        values.put(COLUMN_INGREDIENTS, ingredients);
-        // Convierte harmfulIngredients de ArrayList a String si es necesario
-        String harmfulIngredientsString = TextUtils.join(", ", harmfulIngredients);
-        values.put(COLUMN_HARMFUL_INGREDIENTS, harmfulIngredientsString);
         values.put(COLUMN_STORE, store);
         db.insert(TABLE_FAVORITES, null, values);
         db.close();
     }
 
+    // Método para obtener todos los favoritos con solo el nombre y la tienda
+    public ArrayList<String> getAllFavorites() {
+        ArrayList<String> favoritesList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
 
-    // Método para obtener todos los favoritos
-    public List<Product> getAllFavorites() {
-        List<Product> favorites = new ArrayList<>();
-        // Utilizando try-with-resources para auto-cerrar la base de datos y el cursor
-        try (SQLiteDatabase db = this.getReadableDatabase();
-             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FAVORITES, null)) {
-
-            int productNameIndex = cursor.getColumnIndexOrThrow(COLUMN_PRODUCT_NAME);
-            int ingredientsIndex = cursor.getColumnIndexOrThrow(COLUMN_INGREDIENTS);
-            int storeIndex = cursor.getColumnIndexOrThrow(COLUMN_STORE);
-            int harmfulIngredientsIndex = cursor.getColumnIndexOrThrow(COLUMN_HARMFUL_INGREDIENTS);
-
-            while (cursor.moveToNext()) {
-                String productName = cursor.getString(productNameIndex);
-                String ingredients = cursor.getString(ingredientsIndex);
-                String store = cursor.getString(storeIndex);
-                String harmfulIngredientsStr = cursor.getString(harmfulIngredientsIndex);
-                ArrayList<String> harmfulIngredients = new ArrayList<>(Arrays.asList(harmfulIngredientsStr.split(", ")));
-
-                // Crea un nuevo objeto Producto y lo añade a la lista
-                favorites.add(new Product(productName, ingredients, harmfulIngredients, store));
+        try {
+            cursor = db.rawQuery("SELECT product_name, store FROM " + TABLE_FAVORITES, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    String productName = cursor.getString(0);
+                    String store = cursor.getString(1);
+                    favoritesList.add("Producto: " + productName + " - Tienda: " + store);
+                } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            // Manejar posibles excepciones
-            Log.e("DatabaseHelper", "Error al cargar favoritos", e);
+            Log.e("DatabaseHelper", "Error al recuperar favoritos", e);
+        } finally {
+            if (cursor != null) cursor.close();
+            db.close();
         }
-        return favorites;
+        return favoritesList;
     }
-
 
 }
 

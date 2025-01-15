@@ -4,6 +4,8 @@ package com.example.alergin.Favoritos;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,54 +20,26 @@ import java.util.List;
 
 public class FavoritesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private FavoritesAdapter adapter;
     private DatabaseHelper dbHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
-        recyclerView = findViewById(R.id.recycler_view_favorites);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Inicialización del helper de la base de datos
         dbHelper = new DatabaseHelper(this);
 
-        // Cargar y mostrar favoritos
-        loadFavorites();
-    }
+        ListView favoritesListView = findViewById(R.id.favorites_list_view);
+        ArrayList<String> favoritesList = dbHelper.getAllFavorites();
 
-    // Método para cargar favoritos desde la base de datos
-    private List<Product> loadFavorites() {
-        List<Product> favorites = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        try (Cursor cursor = db.rawQuery("SELECT * FROM Favorites", null)) {
-            int productNameIndex = cursor.getColumnIndex("product_name");
-            //int ingredientsIndex = cursor.getColumnIndex("ingredients");
-            int storeIndex = cursor.getColumnIndex("store");
-           // int harmfulIngredientsIndex = cursor.getColumnIndex("harmful_ingredients");
-
-            while (cursor.moveToNext()) {
-                String productName = cursor.getString(productNameIndex);
-              //  String ingredients = cursor.getString(ingredientsIndex);
-                String store = cursor.getString(storeIndex);
-                //String harmfulIngredientsStr = cursor.getString(harmfulIngredientsIndex);
-
-                // Convertir la cadena de ingredientes dañinos almacenados a ArrayList
-                /**   ArrayList<String> harmfulIngredients = new ArrayList<>();
-                if (harmfulIngredientsStr != null) {
-                    String[] parts = harmfulIngredientsStr.split(", ");
-                    for (String part : parts) {
-                        harmfulIngredients.add(part.trim());
-                    }
-                }**/
-
-                favorites.add(new Product(productName,null,null, store));
-            }
+        if (favoritesList.isEmpty()) {
+            // Mostrar un mensaje si no hay favoritos y regresar a WelcomeActivity
+            Toast.makeText(this, "No hay favoritos añadidos", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            // Mostrar los favoritos si existen
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, favoritesList);
+            favoritesListView.setAdapter(adapter);
         }
-        db.close();
-        return favorites;
     }
+
 }
 

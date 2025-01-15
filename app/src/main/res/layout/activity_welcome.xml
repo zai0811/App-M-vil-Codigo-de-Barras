@@ -2,98 +2,109 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FfFfFF"
     tools:context=".WelcomeActivity">
 
-<androidx.appcompat.widget.Toolbar
-android:id="@+id/toolbarSubCategory"
-android:layout_width="match_parent"
-android:layout_height="?attr/actionBarSize"
-android:background="#7684c0"
-android:padding="16dp"
-app:layout_constraintTop_toTopOf="parent"
-app:titleTextColor="@android:color/white"/>
+    <!-- Encabezado -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#7684c0"
+        android:title="Bienvenido"
+        android:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Logo -->
     <ImageView
         android:id="@+id/logoPrincipal"
-        android:layout_width="170dp"
-        android:layout_height="119dp"
-        android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/logo"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-<TextView
-android:id="@+id/inicio"
-android:layout_width="0dp"
-android:layout_height="wrap_content"
-android:layout_marginTop="20dp"
-android:gravity="center"
-android:padding="8dp"
-android:text="BIENVENIDO"
-android:textColor="#7684c0"
-android:textSize="40sp"
-android:textStyle="bold"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toBottomOf="@id/logoPrincipal" />
+    <!-- Texto de bienvenida -->
+    <TextView
+        android:id="@+id/inicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BIENVENIDO"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#7684c0"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/logoPrincipal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-<TextView
-android:id="@+id/allergy_selection_text"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Selecciona si eres alérgico a:"
-android:textSize="18sp"
-android:textColor="@android:color/black"
-app:layout_constraintTop_toBottomOf="@id/inicio"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-android:layout_marginTop="16dp" />
+    <!-- Texto de Selección de Alergias -->
+    <TextView
+        android:id="@+id/allergy_selection_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecciona si eres alérgico a:"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/inicio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Selector de alergias -->
     <Spinner
         android:id="@+id/allergy_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/allergy_selection_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/allergy_selection_text" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-<Button
-android:id="@+id/scan_button"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Escanear producto"
-app:layout_constraintTop_toBottomOf="@id/allergy_spinner"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-android:layout_marginTop="24dp" />
+    <!-- Botón de Escanear Producto -->
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Escanear Producto"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/allergy_spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-<Button
-android:id="@+id/button_recetas"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Ver Recetas"
-app:layout_constraintTop_toBottomOf="@id/scan_button"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-android:layout_marginTop="16dp" />
+    <!-- Botón Ver Recetas -->
+    <Button
+        android:id="@+id/button_recetas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Recetas"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/scan_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-<Button
-android:id="@+id/favorite_button"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Ver Favoritos"
-app:layout_constraintTop_toBottomOf="@id/button_recetas"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-android:layout_marginTop="16dp" />
+    <!-- Botón Ver Favoritos -->
+    <Button
+        android:id="@+id/favorite_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Favoritos"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/button_recetas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- ListView para Mostrar Favoritos (Oculto por defecto) -->
+    <ListView
+        android:id="@+id/favorites_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/favorite_button"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

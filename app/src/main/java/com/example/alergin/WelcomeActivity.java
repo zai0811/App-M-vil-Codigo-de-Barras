@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +20,9 @@ public class WelcomeActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private Spinner allergySpinner;
     private Button btnVerRecetas;
+    private Button viewFavoritesButton;
+    private ListView favoritesListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +43,28 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        findViewById(R.id.favorite_button).setOnClickListener(v -> {
-            Intent intent = new Intent(this, FavoritesActivity.class);
-            startActivity(intent);
-        });
+        viewFavoritesButton = findViewById(R.id.favorite_button);
+        favoritesListView = findViewById(R.id.favorites_list_view);
+
+        // Mostrar favoritos si se llega con el Intent desde ProductDetailsActivity
+        if (getIntent().getBooleanExtra("SHOW_FAVORITES", false)) {
+            showFavorites();
+        }
+
+        // Mostrar favoritos al presionar el botón
+        viewFavoritesButton.setOnClickListener(v -> showFavorites());
+    }
+
+    private void showFavorites() {
+        ArrayList<String> favorites = dbHelper.getAllFavorites();
+        if (favorites.isEmpty()) {
+            favoritesListView.setVisibility(ListView.GONE);
+            Toast.makeText(this, "No hay favoritos añadidos", Toast.LENGTH_SHORT).show();
+        } else {
+            favoritesListView.setVisibility(ListView.VISIBLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, favorites);
+            favoritesListView.setAdapter(adapter);
+        }
     }
 
     @Override

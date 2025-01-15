@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#9dd227"
+        android:background="#7684c0"
         android:titleTextColor="@android:color/white"/>
 
     <!-- Contenedor principal -->
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Atrás"
-            android:backgroundTint="#9dd227"
+            android:backgroundTint="#7684c0"
             android:textColor="@android:color/white"/>
     </LinearLayout>
 </RelativeLayout>
